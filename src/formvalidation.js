@@ -13,8 +13,6 @@
             triggerUsed: 'blur',
             focusFirstField: false,
             hideErrorOnChange: true,
-            ajaxMethod: 'get',
-            url: '',
             scroll: 'true',
             custFunc: []
         }
@@ -45,9 +43,6 @@
             $(formElem).find('[' + opts.attrUsed + ']').each(function (index, elem) {
                 e.stopImmediatePropagation();
                 checkError(elem, opts);
-                if (opts.url != "") {
-                    getAsyncPattern(elem, opts);
-                }
             });
         })
         return this;
@@ -202,19 +197,4 @@
         }
 
     }
-
-
-    /*var getAsyncPattern = function (elem, opts) {
-        $.ajax({
-            data: {},
-            method: opts.ajaxMethod,
-            url: opts.url,
-            success: function (result) {
-                //whatever needs to be done with the result
-            },
-            error: function (e) {
-                //handle the error / display the error message if present
-            }
-        });
-    }*/
 })(jQuery)
