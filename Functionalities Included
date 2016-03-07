@@ -1,0 +1,11 @@
+
+1. Auto initialization if the attribute data-formValidation is present
+2.Allows customization
+    •	Change the attribute data-formValidation
+    •	Change the default trigger event
+    •	Enable/disable focusing the first field with error
+    •	Enable/disable hiding error on change of value
+    •	Auto scroll to error field
+    •	Allows used defined validations
+
+3. User defined validation for alphabets included in app.js to demonstrate user defined validation functionality.
