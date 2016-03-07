@@ -1,0 +1,46 @@
+/*reset browser styles*/
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: rgb(240, 240, 240);
+    text-align: center;
+    font-size: 3em;
+    padding: 0.3em;
+}
+
+body {
+    width: 100 %;
+    margin: auto 2%;
+}
+
+section {
+    background-color: #FAFAFA;
+}
+
+footer {
+    font-size: 1em;
+}
+
+form label {
+    display: block;
+}
+
+button {
+    margin-top: 5px;
+    display: block;
+    padding: 5px 10px;
+}
+
+fieldset {
+    padding: 10px;
+}
+
+input {
+    border: 1px solid gray;
+    border-radius: 3px;
+    line-height: 1.5em;
+}
