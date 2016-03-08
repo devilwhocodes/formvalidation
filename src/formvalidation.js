@@ -1,24 +1,27 @@
-(function ($, window, document) {
+(function ($, window, document, undefined) {
+
     $(function () {
         $('form').filter(function () {
-            return $(this).find("[data-formvalidate]").length > 0;
+            return $(this).find("[data-formValidate]").length > 0;
         }).validateForm();
     });
 
     $.fn.validateForm = function (options) {
         var opts = {};
         var def = {
-            attrUsed: 'data-formvalidate',
+            attrUsed: 'data-formValidate',
             triggerUsed: 'blur',
             focusFirstField: false,
             hideErrorOnChange: true,
+            ajaxMethod: 'get',
+            url: '',
             scroll: 'true',
             custFunc: []
         }
         opts = $.extend(def, options);
         var formElem = this;
 
-        $('form').find('[' + opts.attrUsed + ']').each(function (index, elem) {
+        $(formElem).find('[' + opts.attrUsed + ']').each(function (index, elem) {
             if (opts.hideErrorOnChange) {
                 $(elem).on(opts.triggerUsed, function (e) {
                     e.stopImmediatePropagation();
@@ -39,10 +42,13 @@
 
 
         $('form').on('click', '.submit,input[type="submit"]', function (e) {
-            $('form').find('[' + opts.attrUsed + ']').each(function (index, elem) {
+            $(formElem).find('[' + opts.attrUsed + ']').each(function (index, elem) {
+                e.stopImmediatePropagation();
                 checkError(elem, opts);
+                if (opts.url != "") {
+                    getAsyncPattern(elem, opts);
+                }
             });
-            e.stopImmediatePropagation();
         })
         return this;
     }
@@ -128,15 +134,10 @@
         var attrType = $(elem).attr(opts.attrUsed);
 
         if (elementVal == "") {
-            if ($(elem).attr('isRequired').toString() == 'true') {
-                if ($(elem).next('span').length == 0) {
-                    html = '<span class= "error" style = "color : red; margin-left : 10px; font-size: 12px">' + globalVar.mandatoryError + fieldName + ' field</span>';
-                }
-                globalVar.hasError = true;
-            } else {
-                return;
+            if ($(elem).next('span').length == 0) {
+                html = '<span class= "error" style = "color : red; margin-left : 10px; font-size: 12px">' + globalVar.mandatoryError + fieldName + ' field</span>';
             }
-
+            globalVar.hasError = true;
         } else if (elementVal != "") {
             removeInlineError(elem);
             if (attrType == "password") {
