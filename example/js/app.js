@@ -16,7 +16,7 @@ $(function () {
             attributeVal: "alpha", // value of the data-attribute
             fieldError: 'Please enter alphabets only', // the error that should appear when an error is present
             funcName: 'alphaValidation' // name of the function that has been added
-				}]
+        }]
     });
 
 
