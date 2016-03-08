@@ -54,8 +54,8 @@
             if ($('.successHeader').length > 0) {
                 $('.successHeader').remove();
             }
-            if (globalVar.hasError) {
-                var html = "<div class='errorHeader'>Please corret the errors in the form</div>";
+            if ($('.error').length > 0) {
+                var html = "<div class='errorHeader'>Please correct the errors in the form</div>";
             } else {
                 var html = "<div class='successHeader'>Form validation successful</div>";
             }
@@ -146,10 +146,15 @@
         var attrType = $(elem).attr(opts.attrUsed);
 
         if (elementVal == "") {
-            if ($(elem).next('span').length == 0) {
-                html = '<span class= "error" style = "color : red; margin-left : 10px; font-size: 12px">' + globalVar.mandatoryError + fieldName + ' field</span>';
+            if ($(elem).attr('isRequired') == "true") {
+                if ($(elem).next('span').length == 0) {
+                    html = '<span class= "error" style = "color : red; margin-left : 10px; font-size: 12px">' + globalVar.mandatoryError + fieldName + ' field</span>';
+                }
+                globalVar.hasError = true;
+            } else {
+                return;
             }
-            globalVar.hasError = true;
+
         } else if (elementVal != "") {
             removeInlineError(elem);
             if (attrType == "password") {
