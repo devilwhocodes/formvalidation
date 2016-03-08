@@ -22,13 +22,7 @@ $(function () {
 
 
     //the same functionality as above, but its attached to the click event of submit btn
-    $('.submit').on('click', function () {
-        $('#test').validateForm({
-            custFunc: [{
-                attributeVal: "alpha",
-                fieldError: 'Please enter alphabets only',
-                funcName: 'alphaValidation'
-            }]
-        });
+    $('.submit').on('click', function (e) {
+        $('#test').validateForm();
     });
 });
