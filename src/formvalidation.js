@@ -1,5 +1,4 @@
-(function ($, window, document, undefined) {
-
+(function ($, window, document) {
     $(function () {
         $('form').filter(function () {
             return $(this).find("[data-formValidate]").length > 0;
@@ -134,7 +133,7 @@
                     html = '<span class= "error" style = "color : red; margin-left : 10px; font-size: 12px">' + globalVar.mandatoryError + fieldName + ' field</span>';
                 }
                 globalVar.hasError = true;
-            }else{
+            } else {
                 return;
             }
 
