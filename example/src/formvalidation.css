@@ -7,7 +7,7 @@
     border-radius: 10px;
 }
 
-.successHeader {
+.successHeader,.errorHeader {
     text-align: center;
     background-color: lightgreen;
     padding: 6px 8px;
@@ -15,10 +15,12 @@
     color: darkgreen;
 }
 
+.successHeader {
+    background-color: lightgreen;
+    color: darkgreen;
+}
+
 .errorHeader {
-    text-align: center;
     background-color: lightpink;
-    padding: 6px 8px;
-    border-radius: 6px;
     color: red;
 }

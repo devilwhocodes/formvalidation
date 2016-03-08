@@ -15,7 +15,9 @@
             ajaxMethod: 'get',
             url: '',
             scroll: 'true',
-            custFunc: []
+            custFunc: [],
+            errorHeaderMsg:'Please correct the errors in the form',
+            successHeaderMsg:'Form validation successful'
         }
         opts = $.extend(def, options);
         var formElem = this;
@@ -55,9 +57,9 @@
                 $('.successHeader').remove();
             }
             if ($('.error').length > 0) {
-                var html = "<div class='errorHeader'>Please correct the errors in the form</div>";
+                var html = "<div class='errorHeader'>"+opts.errorHeaderMsg+"</div>";
             } else {
-                var html = "<div class='successHeader'>Form validation successful</div>";
+                var html = "<div class='successHeader'>"+opts.successHeaderMsg+"</div>";
             }
             $('form').before(html);
 
@@ -70,10 +72,6 @@
         mandatoryError: 'Please fill the ',
         fieldError: ''
     }
-
-    $.extend({
-        validateForm: $().validateForm()
-    });
 
     $.fn.addMethod = function (option) {
         $.extend($().validationMethods, option);

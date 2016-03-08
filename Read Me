@@ -8,10 +8,12 @@ List of Functionalities
         •	Enable/disable hiding error on change of value
         •	Auto scroll to error field
         •	Allows used defined validations
+        •   Allows customized error and success messages on form header
+        •   Customizable CSS for error and success msgs
 
     3. User defined validation for alphabets included in app.js to demonstrate user defined validation functionality.
-    4. User can specify if field needs to be mandatory using "isRequired". if it is set to false, then the field won't    be validated on blur.
-
+    4. User can specify if field needs to be mandatory using "isRequired". if it is set to false, then the field won't be validated on blur.
+    
 
 List of attributes : 
     • data-email
