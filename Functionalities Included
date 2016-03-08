@@ -9,3 +9,15 @@
     •	Allows used defined validations
 
 3. User defined validation for alphabets included in app.js to demonstrate user defined validation functionality.
+
+
+List of attributes : 
+    • data-email
+    • data-password 
+    • data-number 
+    • data-telephone 
+    • data-alphaNumeric 
+    • data-alphaNumericWithSpecialChar 
+    • data-zipcode 
+    • data-address 
+    • data-url 
