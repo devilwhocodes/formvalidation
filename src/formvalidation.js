@@ -5,7 +5,6 @@
             return $(this).find("[data-formValidate]").length > 0;
         }).validateForm();
     });
-
     $.fn.validateForm = function (options) {
         var opts = {};
         var def = {
