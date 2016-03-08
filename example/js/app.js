@@ -9,7 +9,8 @@ $(function () {
         }
     });
 
-    //initializing the plugin with userdefined function details
+    /*initializing the plugin with userdefined function details
+    This is must for custom validations*/
     $('#test').validateForm({
         // custfunc takes an array of objects, the object will hold the values of data-attribute,error message to be displayed and the name of the userdefined function
         custFunc: [{

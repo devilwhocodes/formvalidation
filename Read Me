@@ -30,3 +30,6 @@ List of attributes :
     • yyyymmdd (date format supports '.','/','-' seperators)
 
     
+    NOTE: 
+    
+    When defining new validation methods to the addMethod function, make sure the parameters for custFunc are registerd on the validateForm method.
