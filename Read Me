@@ -16,12 +16,17 @@ List of Functionalities
     
 
 List of attributes : 
-    • data-email
-    • data-password 
-    • data-number 
-    • data-telephone 
-    • data-alphaNumeric 
-    • data-alphaNumericWithSpecialChar 
-    • data-zipcode 
-    • data-address 
-    • data-url 
+    • email
+    • password 
+    • number 
+    • telephone 
+    • alphaNumeric 
+    • alphaNumericWithSpecialChar 
+    • zipcode 
+    • address 
+    • url 
+    • mmddyyyy (date format supports '.','/','-' seperators)
+    • ddmmyyyy (date format supports '.','/','-' seperators)
+    • yyyymmdd (date format supports '.','/','-' seperators)
+
+    
