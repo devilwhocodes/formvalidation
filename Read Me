@@ -1,6 +1,6 @@
 List of Functionalities
 
-    1. Auto initialization if the attribute data-formValidation is present
+    1. Auto initialization if the attribute data-formvalidate is present
     2. Allows customization
         •	Change the attribute data-formValidation
         •	Change the default trigger event
