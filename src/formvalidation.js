@@ -1,24 +1,25 @@
 (function ($, window, document) {
     $(function () {
         $('form').filter(function () {
-            return $(this).find("[data-formvalidate]").length > 0;
+            return $(this).find("[data-formValidate]").length > 0;
         }).validateForm();
     });
-
     $.fn.validateForm = function (options) {
         var opts = {};
         var def = {
-            attrUsed: 'data-formvalidate',
+            attrUsed: 'data-formValidate',
             triggerUsed: 'blur',
             focusFirstField: false,
             hideErrorOnChange: true,
+            ajaxMethod: 'get',
+            url: '',
             scroll: 'true',
             custFunc: []
         }
         opts = $.extend(def, options);
         var formElem = this;
 
-        $('form').find('[' + opts.attrUsed + ']').each(function (index, elem) {
+        $(formElem).find('[' + opts.attrUsed + ']').each(function (index, elem) {
             if (opts.hideErrorOnChange) {
                 $(elem).on(opts.triggerUsed, function (e) {
                     e.stopImmediatePropagation();
@@ -39,10 +40,13 @@
 
 
         $('form').on('click', '.submit,input[type="submit"]', function (e) {
-            $('form').find('[' + opts.attrUsed + ']').each(function (index, elem) {
+            $(formElem).find('[' + opts.attrUsed + ']').each(function (index, elem) {
+                e.stopImmediatePropagation();
                 checkError(elem, opts);
+                if (opts.url != "") {
+                    getAsyncPattern(elem, opts);
+                }
             });
-            e.stopImmediatePropagation();
         })
         return this;
     }
