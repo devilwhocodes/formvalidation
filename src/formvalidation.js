@@ -16,8 +16,8 @@
             url: '',
             scroll: 'true',
             custFunc: [],
-            errorHeaderMsg:'Please correct the errors in the form',
-            successHeaderMsg:'Form validation successful'
+            errorHeaderMsg: 'Please correct the errors in the form',
+            successHeaderMsg: 'Form validation successful'
         }
         opts = $.extend(def, options);
         var formElem = this;
@@ -57,9 +57,9 @@
                 $('.successHeader').remove();
             }
             if ($('.error').length > 0) {
-                var html = "<div class='errorHeader'>"+opts.errorHeaderMsg+"</div>";
+                var html = "<div class='errorHeader'>" + opts.errorHeaderMsg + "</div>";
             } else {
-                var html = "<div class='successHeader'>"+opts.successHeaderMsg+"</div>";
+                var html = "<div class='successHeader'>" + opts.successHeaderMsg + "</div>";
             }
             $('form').before(html);
 
@@ -120,8 +120,40 @@
         url: function (elementVal) {
             var urlreg = /^(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
             return $().isInvalid(urlreg, elementVal);
+        },
+        ddmmyyyy: function (elementVal) {
+            var reg = /(^(((0[1-9]|1[0-9]|2[0-8])[- / .](0[1-9]|1[012]))|((29|30|31)[- / .](0[13578]|1[02]))|((29|30)[- / .](0[4,6,9]|11)))[- / .](19|[2-9][0-9])\d\d$)|(^29[- / .]02[- / .](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
+            return $().isInvalid(reg, elementVal);
+        },
+        mmddyyyy: function (elementVal) {
+            elementVal = convertDate(elementVal);
+            return $().validationMethods.ddmmyyyy(elementVal[1]+'/'+elementVal[0]+'/'+elementVal[2]);
+        },
+        yyyymmdd: function (elementVal) {
+            elementVal = convertDate(elementVal);
+            return $().validationMethods.ddmmyyyy(elementVal[2]+'/'+elementVal[1]+'/'+elementVal[0]);
         }
 
+        /*
+        (0[1-9]|[12][0-8])[-](0[1-9]|1[012]) - days: from 1 to 28 for any months
+        ((29|30|31)[-](0[13578]|1[02])) - days: 29, 30, 31 for months: 1, 3, 5, 7, 8, 10, 12
+  	 	(29|30)[-](0[469]|11) - days: 29, 30 for months: 4, 6, 9, 11
+  	 	(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$) years that ends with 00, 04, 08, etc. are leap years
+        (^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$) 29-02-only for leap years
+        */
+
+    }
+
+    var convertDate = function (elementVal) {
+        var ary;
+        if (elementVal.indexOf('.') != -1) {
+            ary = elementVal.split('.');
+        } else if (elementVal.indexOf('/') != -1) {
+            ary = elementVal.split('/');
+        } else if (elementVal.indexOf('-') != -1) {
+            ary = elementVal.split('-');
+        }
+        return ary;
     }
 
     $.fn.isInvalid = function (reg, val) {
@@ -181,6 +213,15 @@
             } else if (attrType == "url") {
                 globalVar.hasError = $().validationMethods.url(elementVal);
                 globalVar.fieldError = "Please enter a valid url";
+            } else if (attrType == "ddmmyyyy") {
+                globalVar.hasError = $().validationMethods.ddmmyyyy(elementVal);
+                globalVar.fieldError = "Please enter a valid date"
+            } else if (attrType == "mmddyyyy") {
+                globalVar.hasError = $().validationMethods.mmddyyyy(elementVal);
+                globalVar.fieldError = "Please enter a valid date"
+            } else if (attrType == "yyyymmdd") {
+                globalVar.hasError = $().validationMethods.yyyymmdd(elementVal);
+                globalVar.fieldError = "Please enter a valid date"
             }
 
             if (opts.custFunc.length > 0) {
