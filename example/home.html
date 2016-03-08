@@ -20,19 +20,19 @@
 
                 <div>
                     <label for="">Name</label>
-                    <input type="text" data-formValidate="alpha" id="fname" />
+                    <input type="text" data-formValidate="alpha" isRequired="false" id="fname" />
                 </div>
                 <div>
                     <label for="">Password</label>
-                    <input type="password" data-formValidate="password" />
+                    <input type="password" data-formValidate="password" isRequired="true" />
                 </div>
                 <div>
                     <label for="">Email</label>
-                    <input type="text" data-formValidate="email" />
+                    <input type="text" data-formValidate="email" isRequired="true" />
                 </div>
                 <div>
                     <label for="">Phone</label>
-                    <input type="text" data-formValidate="telephone" maxlength="10" />
+                    <input type="text" data-formValidate="telephone" maxlength="10" isRequired="true" />
                 </div>
                 <button class="submit">Submit</button>
 
@@ -42,7 +42,7 @@
     </section>
     <script src="js/jquery-1.10.2.js"></script>
     <script src="js/app.js"></script>
-    <script src="/src/formvalidation.min.js"></script>
+    <script src="/src/formvalidation.js"></script>
     <script>
         //        Mini plugin to load the page header(first plugin)
         (function ($) {

@@ -129,10 +129,15 @@
         var attrType = $(elem).attr(opts.attrUsed);
 
         if (elementVal == "") {
-            if ($(elem).next('span').length == 0) {
-                html = '<span class= "error" style = "color : red; margin-left : 10px; font-size: 12px">' + globalVar.mandatoryError + fieldName + ' field</span>';
+            if ($(elem).attr('isRequired').toString() == 'true') {
+                if ($(elem).next('span').length == 0) {
+                    html = '<span class= "error" style = "color : red; margin-left : 10px; font-size: 12px">' + globalVar.mandatoryError + fieldName + ' field</span>';
+                }
+                globalVar.hasError = true;
+            }else{
+                return;
             }
-            globalVar.hasError = true;
+
         } else if (elementVal != "") {
             removeInlineError(elem);
             if (attrType == "password") {

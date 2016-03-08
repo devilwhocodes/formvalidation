@@ -10,6 +10,7 @@ List of Functionalities
         •	Allows used defined validations
 
     3. User defined validation for alphabets included in app.js to demonstrate user defined validation functionality.
+    4. User can specify if field needs to be mandatory using "isRequired". if it is set to false, then the field won't    be validated on blur.
 
 
 List of attributes : 
