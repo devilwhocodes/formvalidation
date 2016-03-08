@@ -48,6 +48,19 @@
                     getAsyncPattern(elem, opts);
                 }
             });
+            if ($('.errorHeader').length > 0) {
+                $('.errorHeader').remove();
+            }
+            if ($('.successHeader').length > 0) {
+                $('.successHeader').remove();
+            }
+            if (globalVar.hasError) {
+                var html = "<div class='errorHeader'>Please corret the errors in the form</div>";
+            } else {
+                var html = "<div class='successHeader'>Form validation successful</div>";
+            }
+            $('form').before(html);
+
         })
         return this;
     }
