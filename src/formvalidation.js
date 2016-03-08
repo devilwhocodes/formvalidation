@@ -1,14 +1,14 @@
 (function ($, window, document) {
     $(function () {
         $('form').filter(function () {
-            return $(this).find("[data-formValidate]").length > 0;
+            return $(this).find("[data-formvalidate]").length > 0;
         }).validateForm();
     });
 
     $.fn.validateForm = function (options) {
         var opts = {};
         var def = {
-            attrUsed: 'data-formValidate',
+            attrUsed: 'data-formvalidate',
             triggerUsed: 'blur',
             focusFirstField: false,
             hideErrorOnChange: true,
@@ -18,7 +18,7 @@
         opts = $.extend(def, options);
         var formElem = this;
 
-        $(formElem).find('[' + opts.attrUsed + ']').each(function (index, elem) {
+        $('form').find('[' + opts.attrUsed + ']').each(function (index, elem) {
             if (opts.hideErrorOnChange) {
                 $(elem).on(opts.triggerUsed, function (e) {
                     e.stopImmediatePropagation();
@@ -39,10 +39,10 @@
 
 
         $('form').on('click', '.submit,input[type="submit"]', function (e) {
-            $(formElem).find('[' + opts.attrUsed + ']').each(function (index, elem) {
-                e.stopImmediatePropagation();
+            $('form').find('[' + opts.attrUsed + ']').each(function (index, elem) {
                 checkError(elem, opts);
             });
+            e.stopImmediatePropagation();
         })
         return this;
     }
