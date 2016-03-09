@@ -15,7 +15,7 @@ List of Functionalities
     4. User can specify if field needs to be mandatory using "isRequired". if it is set to false, then the field won't be validated on blur.
     
 
-List of attributes : 
+List of data-formValidate attribute values : 
     • email
     • password 
     • number 
