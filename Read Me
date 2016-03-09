@@ -28,7 +28,11 @@ List of attributes :
     • mmddyyyy (date format supports '.','/','-' seperators)
     • ddmmyyyy (date format supports '.','/','-' seperators)
     • yyyymmdd (date format supports '.','/','-' seperators)
+    • dateRange** (compares from date and to date) 
 
+    **
+    provide the attributes "fromdate" & "todate" with the date format ("mmddyyyy" / "yyyymmdd"/ "ddmmyyyy")when using dateRange
+    Refer home.html for example
     
     NOTE: 
     
