@@ -294,7 +294,7 @@ SOFTWARE.
         if (elementVal == "") {
             if ($(elem).attr('isRequired') == "true") {
                 if ($(elem).next('span').length == 0) {
-                    html = '<span class= "error" style = "color : red; margin-left : 10px; font-size: 12px">' + globalVar.mandatoryError + fieldName + ' field</span>';
+                    html = '<span class= "error">' + globalVar.mandatoryError + fieldName + ' field</span>';
                 }
                 globalVar.hasError = true;
             } else {
@@ -352,7 +352,7 @@ SOFTWARE.
             }
 
             if (globalVar.hasError) {
-                html = '<span class = "error" style = "color : red; margin-left : 10px; font-size : 12px"> ' + globalVar.fieldError + ' </span>';
+                html = '<span class = "error"> ' + globalVar.fieldError + ' </span>';
 
             } else {
                 removeInlineError(elem);
