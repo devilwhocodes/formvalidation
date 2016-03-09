@@ -35,6 +35,15 @@
                     <label for="">Phone<i>(optional)</i></label>
                     <input type="text" data-formValidate="telephone" maxlength="10" isRequired="false" />
                 </div>
+                <div>
+                    <label for="">From Date</label>
+                    <input type="text" data-formValidate="dateRange" fromdate="mmddyyyy" maxlength="10">
+                </div>
+                <div>
+                    <label for="">To Date</label>
+                    <input type="text" data-formValidate="dateRange" todate="mmddyyyy" maxlength="10">
+                </div>
+
                 <button class="submit">Submit</button>
 
             </form>

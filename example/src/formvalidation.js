@@ -125,15 +125,6 @@
             var reg = /(^(((0[1-9]|1[0-9]|2[0-8])[- / .](0[1-9]|1[012]))|((29|30|31)[- / .](0[13578]|1[02]))|((29|30)[- / .](0[4,6,9]|11)))[- / .](19|[2-9][0-9])\d\d$)|(^29[- / .]02[- / .](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
             return $().isInvalid(reg, elementVal);
         },
-        mmddyyyy: function (elementVal) {
-            elementVal = convertDate(elementVal);
-            return $().validationMethods.ddmmyyyy(elementVal[1]+'/'+elementVal[0]+'/'+elementVal[2]);
-        },
-        yyyymmdd: function (elementVal) {
-            elementVal = convertDate(elementVal);
-            return $().validationMethods.ddmmyyyy(elementVal[2]+'/'+elementVal[1]+'/'+elementVal[0]);
-        }
-
         /*
         (0[1-9]|[12][0-8])[-](0[1-9]|1[012]) - days: from 1 to 28 for any months
         ((29|30|31)[-](0[13578]|1[02])) - days: 29, 30, 31 for months: 1, 3, 5, 7, 8, 10, 12
@@ -141,7 +132,58 @@
   	 	(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$) years that ends with 00, 04, 08, etc. are leap years
         (^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$) 29-02-only for leap years
         */
+        mmddyyyy: function (elementVal) {
+            elementVal = convertDate(elementVal);
+            return $().validationMethods.ddmmyyyy(elementVal[1] + '/' + elementVal[0] + '/' + elementVal[2]);
+        },
+        yyyymmdd: function (elementVal) {
+            elementVal = convertDate(elementVal);
+            return $().validationMethods.ddmmyyyy(elementVal[2] + '/' + elementVal[1] + '/' + elementVal[0]);
+        },
+        dateRange: function (elem) {
 
+            var dtFmt1, dtFmt2, dt1, dt2;
+            if ($(elem).is('[fromdate]')) {
+                removeInlineError(elem);
+                removeInlineError($(elem).parents('div, section, li').next().find('[todate]'));
+                dt1 = $(elem).val();
+                dt2 = $(elem).parents('div, section, li').next().find('[todate]').val();
+                if (dt1 != "" && dt2 != "") {
+                    dtFmt1 = $(elem).attr('fromdate');
+                    dtFmt2 = $(elem).parents('div, section, li').next().find('[todate]').attr('todate');
+                    if (!$().validationMethods[dtFmt1](dt1) && !$().validationMethods[dtFmt2](dt2)) {
+                        dt1 = new Date(dt1);
+                        dt2 = new Date(dt2);
+                        if (dt1 > dt2) {
+                            globalVar.fieldError = "From Date cannot be greater than To Date";
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+
+            } else if ($(elem).is('[todate]')) {
+                removeInlineError(elem);
+                removeInlineError($(elem).parents('div, section, li').prev().find('[fromdate]'));
+                dt1 = $(elem).val();
+                dt2 = $(elem).parents('div, section, li').prev().find('[fromdate]').val();
+                if (dt1 != "" && dt2 != "") {
+                    dtFmt1 = $(elem).attr('todate');
+                    dtFmt2 = $(elem).parents('div, section, li').prev().find('[fromdate]').attr('fromdate');
+                    if (!$().validationMethods[dtFmt1](dt1) && !$().validationMethods[dtFmt2](dt2)) {
+                        dt1 = new Date(dt1);
+                        dt2 = new Date(dt2);
+                        if (dt1 > dt2) {
+                            return false;
+                        } else {
+                            globalVar.fieldError = "To Date cannot be less than From Date"
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     var convertDate = function (elementVal) {
@@ -222,6 +264,8 @@
             } else if (attrType == "yyyymmdd") {
                 globalVar.hasError = $().validationMethods.yyyymmdd(elementVal);
                 globalVar.fieldError = "Please enter a valid date"
+            } else if (attrType == "dateRange") {
+                globalVar.hasError = $().validationMethods.dateRange(elem);
             }
 
             if (opts.custFunc.length > 0) {
