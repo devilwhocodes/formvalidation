@@ -1,5 +1,4 @@
 /*
-
 The MIT License (MIT)
 
 Copyright (c) 2016 rakeshprakash91
@@ -22,6 +21,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+
+
 (function ($, window, document, undefined) {
 
     $(function () {
@@ -30,35 +31,19 @@ SOFTWARE.
         }).validateForm();
     });
     $.fn.validateForm = function (options) {
-        var opts = {};
-        var def = {
-            attrUsed: 'data-formValidate',
-            triggerUsed: 'blur',
-            focusFirstField: false,
-            hideErrorOnChange: true,
-            ajaxMethod: 'get',
-            url: '',
-            scroll: 'true',
-            custFunc: [],
-            errorHeaderMsg: 'Please correct the errors in the form',
-            successHeaderMsg: 'Form validation successful'
-        }
-        opts = $.extend(def, options);
+        var opts = $.extend(globalVar.def, options);
         var formElem = this;
 
         $(formElem).find('[' + opts.attrUsed + ']').each(function (index, elem) {
             if (opts.hideErrorOnChange) {
                 $(elem).on(opts.triggerUsed, function (e) {
-                    e.stopImmediatePropagation();
                     checkError(elem, opts);
                 }).on('keyup', function (e) {
-                    e.stopImmediatePropagation();
                     removeInlineError(elem);
                 });
 
             } else {
                 $(elem).on(opts.triggerUsed, function (e) {
-                    e.stopImmediatePropagation();
                     checkError(elem, opts)
                 });
             }
@@ -68,7 +53,6 @@ SOFTWARE.
 
         $('form').on('click', '.submit,input[type="submit"]', function (e) {
             $(formElem).find('[' + opts.attrUsed + ']').each(function (index, elem) {
-                e.stopImmediatePropagation();
                 checkError(elem, opts);
                 if (opts.url != "") {
                     getAsyncPattern(elem, opts);
@@ -94,7 +78,19 @@ SOFTWARE.
     var globalVar = {
         hasError: false,
         mandatoryError: 'Please fill the ',
-        fieldError: ''
+        fieldError: '',
+        def: {
+            attrUsed: 'data-formValidate',
+            triggerUsed: 'blur',
+            focusFirstField: false,
+            hideErrorOnChange: true,
+            ajaxMethod: 'get',
+            url: '',
+            scroll: 'true',
+            custFunc: [],
+            errorHeaderMsg: 'Please correct the errors in the form',
+            successHeaderMsg: 'Form validation successful'
+        }
     }
 
     $.fn.addMethod = function (option) {
@@ -156,57 +152,111 @@ SOFTWARE.
   	 	(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$) years that ends with 00, 04, 08, etc. are leap years
         (^29[-]02[-](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$) 29-02-only for leap years
         */
-        mmddyyyy: function (elementVal) {
+        mmddyyyy: function (elementVal, elem) {
+            if ($(elem).length > 0) {
+                removeInlineError(elem)
+            }
+
             elementVal = convertDate(elementVal);
-            return $().validationMethods.ddmmyyyy(elementVal[1] + '/' + elementVal[0] + '/' + elementVal[2]);
+            if (elementVal != undefined) {
+                if (elementVal.length != 3) {
+                    globalVar.fieldError = "Please enter a valid date";
+                    return true;
+                } else {
+                    return $().validationMethods.ddmmyyyy(elementVal[1] + '/' + elementVal[0] + '/' + elementVal[2]);
+                }
+            } else {
+                globalVar.fieldError = "Please enter a valid date";
+                return true;
+            }
         },
-        yyyymmdd: function (elementVal) {
+        yyyymmdd: function (elementVal, elem) {
+            if ($(elem).length > 0) {
+                removeInlineError(elem)
+            }
             elementVal = convertDate(elementVal);
-            return $().validationMethods.ddmmyyyy(elementVal[2] + '/' + elementVal[1] + '/' + elementVal[0]);
+            if (elementVal != undefined) {
+                if (elementVal.length != 3) {
+                    globalVar.fieldError = "Please enter a valid date";
+                    return true;
+                } else {
+                    return $().validationMethods.ddmmyyyy(elementVal[2] + '/' + elementVal[1] + '/' + elementVal[0]);
+                }
+            } else {
+                globalVar.fieldError = "Please enter a valid date";
+                return true;
+            }
+
         },
         dateRange: function (elem) {
-
             var dtFmt1, dtFmt2, dt1, dt2;
             if ($(elem).is('[fromdate]')) {
-                removeInlineError(elem);
-                removeInlineError($(elem).parents('div, section, li').next().find('[todate]'));
                 dt1 = $(elem).val();
-                dt2 = $(elem).parents('div, section, li').next().find('[todate]').val();
-                if (dt1 != "" && dt2 != "") {
-                    dtFmt1 = $(elem).attr('fromdate');
-                    dtFmt2 = $(elem).parents('div, section, li').next().find('[todate]').attr('todate');
-                    if (!$().validationMethods[dtFmt1](dt1) && !$().validationMethods[dtFmt2](dt2)) {
-                        dt1 = new Date(dt1);
-                        dt2 = new Date(dt2);
-                        if (dt1 > dt2) {
-                            globalVar.fieldError = "From Date cannot be greater than To Date";
-                            return true;
+                dtFmt1 = $(elem).attr('fromdate');
+                if (dt1 != "") {
+                    if (!$().validationMethods[dtFmt1](dt1, elem)) {
+                        dt2 = $(elem).parents('div, section, li').next().find('[todate]').val();
+                        if (dt2 != "") {
+                            dtFmt2 = $(elem).parents('div, section, li').next().find('[todate]').attr('todate');
+                            if (!$().validationMethods[dtFmt2](dt2, elem)) {
+                                if (compareDates(dt1, dt2)) {
+                                    globalVar.fieldError = "From Date cannot be greater than To Date";
+                                    return true;
+                                } else {
+                                    $(elem).parents('div, section, li').next().find('[todate]').siblings('span').remove();
+                                    return false;
+                                }
+                            } else {
+                                $(elem).parents('div, section, li').next().find('[todate]').siblings('span').remove();
+                                return false;
+                            }
                         } else {
                             return false;
                         }
+                    } else {
+                        globalVar.fieldError = "Please enter a valid date";
+                        return true;
                     }
                 }
-
             } else if ($(elem).is('[todate]')) {
-                removeInlineError(elem);
-                removeInlineError($(elem).parents('div, section, li').prev().find('[fromdate]'));
                 dt1 = $(elem).val();
-                dt2 = $(elem).parents('div, section, li').prev().find('[fromdate]').val();
-                if (dt1 != "" && dt2 != "") {
-                    dtFmt1 = $(elem).attr('todate');
-                    dtFmt2 = $(elem).parents('div, section, li').prev().find('[fromdate]').attr('fromdate');
-                    if (!$().validationMethods[dtFmt1](dt1) && !$().validationMethods[dtFmt2](dt2)) {
-                        dt1 = new Date(dt1);
-                        dt2 = new Date(dt2);
-                        if (dt1 > dt2) {
-                            return false;
+                dtFmt1 = $(elem).attr('todate');
+                if (dt1 != "") {
+                    if (!$().validationMethods[dtFmt1](dt1, elem)) {
+                        dt2 = $(elem).parents('div, section, li').prev().find('[fromdate]').val();
+                        if (dt2 != "") {
+                            dtFmt2 = $(elem).parents('div, section, li').prev().find('[fromdate]').attr('fromdate');
+                            if (!$().validationMethods[dtFmt2](dt2, elem)) {
+                                if (compareDates(dt2, dt1)) {
+                                    globalVar.fieldError = "To Date cannot be lesser than From Date"
+                                    return true;
+                                } else {
+                                    $(elem).parents('div, section, li').prev().find('[fromdate]').siblings('span').remove();
+                                    return false;
+                                }
+                            } else {
+                                $(elem).parents('div, section, li').prev().find('[fromdate]').siblings('span').remove();
+                                return false;
+                            }
                         } else {
-                            globalVar.fieldError = "To Date cannot be less than From Date"
-                            return true;
+                            return false;
                         }
+                    } else {
+                        globalVar.fieldError = "Please enter a valid date";
+                        return true;
                     }
                 }
             }
+        }
+    }
+
+    var compareDates = function (dt1, dt2) {
+        dt1 = new Date(dt1);
+        dt2 = new Date(dt2);
+        if (dt1 > dt2) {
+            return true;
+        } else {
+            return false;
         }
     }
 
