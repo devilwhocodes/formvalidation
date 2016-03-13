@@ -37,13 +37,22 @@ SOFTWARE.
         $(formElem).find('[' + opts.attrUsed + ']').each(function (index, elem) {
             if (opts.hideErrorOnChange) {
                 $(elem).on(opts.triggerUsed, function (e) {
+                    if (opts.stopImmediatePropagation) {
+                        e.stopImmediatePropagation();
+                    }
                     checkError(elem, opts);
                 }).on('keyup', function (e) {
+                    if (opts.stopImmediatePropagation) {
+                        e.stopImmediatePropagation();
+                    }
                     removeInlineError(elem);
                 });
 
             } else {
                 $(elem).on(opts.triggerUsed, function (e) {
+                    if (opts.stopImmediatePropagation) {
+                        e.stopImmediatePropagation();
+                    }
                     checkError(elem, opts)
                 });
             }
@@ -52,6 +61,9 @@ SOFTWARE.
 
 
         $('form').on('click', '.submit,input[type="submit"]', function (e) {
+            if (opts.stopImmediatePropagation) {
+                e.stopImmediatePropagation();
+            }
             $(formElem).find('[' + opts.attrUsed + ']').each(function (index, elem) {
                 checkError(elem, opts);
                 if (opts.url != "") {
@@ -89,7 +101,8 @@ SOFTWARE.
             scroll: 'true',
             custFunc: [],
             errorHeaderMsg: 'Please correct the errors in the form',
-            successHeaderMsg: 'Form validation successful'
+            successHeaderMsg: 'Form validation successful',
+            stopImmediatePropagation: true
         }
     }
 
@@ -286,6 +299,7 @@ SOFTWARE.
     }
 
     var checkError = function (elem, opts) {
+
         var elementVal = $(elem).val().trim();
         var fieldName = $(elem).prev('label').text();
         var html = '';
