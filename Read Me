@@ -25,9 +25,9 @@ List of data-formValidate attribute values :
     • zipcode 
     • address 
     • url 
-    • mmddyyyy (date format supports '.','/','-' seperators)
-    • ddmmyyyy (date format supports '.','/','-' seperators)
-    • yyyymmdd (date format supports '.','/','-' seperators)
+    • mmddyyyy (date format supports '.' , '/' , '-' seperators)
+    • ddmmyyyy (date format supports '.' , '/' , '-' seperators)
+    • yyyymmdd (date format supports '.' , '/' , '-' seperators)
     • dateRange** (compares from date and to date) 
 
     **
