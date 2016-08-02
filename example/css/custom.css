@@ -3,6 +3,7 @@
 * {
     margin: 0;
     padding: 0;
+	box-sizing: border-box;
 }
 
 header {
@@ -13,7 +14,6 @@ header {
 }
 
 body {
-/*    width: 100%;*/
     margin: auto 2%;
 }
 
@@ -43,4 +43,5 @@ input {
     border: 1px solid gray;
     border-radius: 3px;
     line-height: 1.5em;
+	padding: 0 5px;
 }
