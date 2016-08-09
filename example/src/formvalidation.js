@@ -80,6 +80,7 @@ SOFTWARE.
 				var html = "<div class='errorHeader'>" + opts.errorHeaderMsg + "</div>";
 			} else {
 				var html = "<div class='successHeader'>" + opts.successHeaderMsg + "</div>";
+				clearForm();
 			}
 			$('form').before(html);
 
@@ -389,5 +390,12 @@ SOFTWARE.
 			}
 		}
 
+	}
+
+	var clearForm = function () {
+		var inputList = document.querySelectorAll('input[type = text], input[type = password]');
+		for (i of inputList) {
+			i.value = "";
+		}
 	}
 })(jQuery, window, document, undefined)
